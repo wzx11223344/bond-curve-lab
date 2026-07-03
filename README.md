@@ -61,7 +61,17 @@ Nelson-Siegel 模型将收益率曲线分解为三个潜在因子：
 
 ### 模型公式
 
-$$y(\tau) = \beta_0 + \beta_1 \cdot \frac{1 - e^{-\tau/\lambda}}{\tau/\lambda} + \beta_2 \cdot \Big(\frac{1 - e^{-\tau/\lambda}}{\tau/\lambda} - e^{-\tau/\lambda}\Big)$$
+$$
+y(\tau) = \beta_0 + \beta_1 \cdot L(\tau) + \beta_2 \cdot C(\tau)
+$$
+
+$$
+L(\tau) = \frac{1 - e^{-\tau/\lambda}}{\tau/\lambda}
+$$
+
+$$
+C(\tau) = \frac{1 - e^{-\tau/\lambda}}{\tau/\lambda} - e^{-\tau/\lambda}
+$$
 
 ### 参数含义
 
@@ -75,8 +85,8 @@ $$y(\tau) = \beta_0 + \beta_1 \cdot \frac{1 - e^{-\tau/\lambda}}{\tau/\lambda} +
 ### 因子载荷
 
 - **水平载荷**: 恒为 1（对所有期限等权影响）
-- **斜率载荷**: $\frac{1 - e^{-\tau/\lambda}}{\tau/\lambda}$，从 1 单调衰减到 0
-- **曲率载荷**: $\frac{1 - e^{-\tau/\lambda}}{\tau/\lambda} - e^{-\tau/\lambda}$，从 0 开始，在中期达到峰值，再衰减到 0
+- **斜率载荷**: $L(\tau) = \frac{1 - e^{-\tau/\lambda}}{\tau/\lambda}$，从 1 单调衰减到 0
+- **曲率载荷**: $C(\tau) = \frac{1 - e^{-\tau/\lambda}}{\tau/\lambda} - e^{-\tau/\lambda}$，从 0 开始，在中期达到峰值，再衰减到 0
 
 ### 即期利率与远期利率关系
 
@@ -88,7 +98,14 @@ $$f(\tau) = \beta_0 + \beta_1 \cdot e^{-\tau/\lambda} + \beta_2 \cdot \frac{\tau
 
 Svensson (1994) 增加了第二个曲率因子，更灵活地拟合长期端的复杂形状：
 
-$$y(\tau) = \beta_0 + \beta_1 \cdot \frac{1 - e^{-\tau/\lambda_1}}{\tau/\lambda_1} + \beta_2 \cdot \Big(\frac{1 - e^{-\tau/\lambda_1}}{\tau/\lambda_1} - e^{-\tau/\lambda_1}\Big) + \beta_3 \cdot \Big(\frac{1 - e^{-\tau/\lambda_2}}{\tau/\lambda_2} - e^{-\tau/\lambda_2}\Big)$$
+$$
+y(\tau) = \beta_0 + \beta_1 \cdot L_1(\tau) + \beta_2 \cdot C_1(\tau) + \beta_3 \cdot C_2(\tau)
+$$
+
+$$
+L_k(\tau) = \frac{1 - e^{-\tau/\lambda_k}}{\tau/\lambda_k}, \qquad
+C_k(\tau) = \frac{1 - e^{-\tau/\lambda_k}}{\tau/\lambda_k} - e^{-\tau/\lambda_k}
+$$
 
 ---
 
