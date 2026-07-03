@@ -158,8 +158,8 @@ def fit_nelson_siegel(
     beta0, beta1, beta2, lam = popt
 
     formula = (
-        f"y(τ) = {beta0:.4f} + {beta1:.4f}·[(1-e^(-τ/{lam:.4f}))/(τ/{lam:.4f})] "
-        f"+ {beta2:.4f}·[(1-e^(-τ/{lam:.4f}))/(τ/{lam:.4f}) - e^(-τ/{lam:.4f})]"
+        f"y(tau) = {beta0:.4f} + {beta1:.4f}·[(1-e^(-tau/{lam:.4f}))/(tau/{lam:.4f})] "
+        f"+ {beta2:.4f}·[(1-e^(-tau/{lam:.4f}))/(tau/{lam:.4f}) - e^(-tau/{lam:.4f})]"
     )
 
     return {
@@ -236,8 +236,8 @@ def fit_nelson_siegel_svensson(
     beta0, beta1, beta2, beta3, lam1, lam2 = popt
 
     formula = (
-        f"y(τ) = {beta0:.4f} + {beta1:.4f}·SL1(τ,{lam1:.4f}) "
-        f"+ {beta2:.4f}·CU1(τ,{lam1:.4f}) + {beta3:.4f}·CU2(τ,{lam2:.4f})"
+        f"y(tau) = {beta0:.4f} + {beta1:.4f}·SL1(tau,{lam1:.4f}) "
+        f"+ {beta2:.4f}·CU1(tau,{lam1:.4f}) + {beta3:.4f}·CU2(tau,{lam2:.4f})"
     )
 
     return {
@@ -261,9 +261,9 @@ def forward_rate_curve(params: list, tenors: np.ndarray, model: str = "ns") -> n
     """
     Derive instantaneous forward rate curve from model parameters.
 
-    NS forward: f(τ) = β₀ + β₁·e^(-τ/λ) + β₂·(τ/λ)·e^(-τ/λ)
+    NS forward: f(tau) = Beta0 + Beta1·e^(-tau/lambda) + Beta2·(tau/lambda)·e^(-tau/lambda)
 
-    NSS forward adds: β₃·(τ/λ₂)·e^(-τ/λ₂)
+    NSS forward adds: Beta3·(tau/lambda2)·e^(-tau/lambda2)
     """
     tenors = np.asarray(tenors, dtype=float)
 
@@ -292,7 +292,7 @@ def discount_factors(params: list, tenors: np.ndarray, model: str = "ns") -> np.
     """
     Compute discount factors from model parameters.
 
-    DF(τ) = exp(-y(τ) * τ / 100)
+    DF(tau) = exp(-y(tau) * tau / 100)
     """
     tenors = np.asarray(tenors, dtype=float)
 
@@ -329,23 +329,23 @@ def interpret_params(params: list, model: str = "ns") -> Dict[str, str]:
     if model.lower() in ("ns", "nelson-siegel"):
         beta0, beta1, beta2, lam = params
         interpretations = {
-            "Long-term level (β₀)": (
+            "Long-term level (Beta0)": (
                 f"{beta0:.4f}% — Long-term equilibrium rate. "
                 + ("Above historical average." if beta0 > 3.5 else "Moderate long-term level.")
             ),
-            "Short-term slope (β₁)": (
+            "Short-term slope (Beta1)": (
                 f"{beta1:.4f} — "
                 + ("Curve is upward-sloping (normal)." if beta1 < 0
                    else "Curve is downward-sloping (inverted)." if beta1 > 0.2
                    else "Curve is relatively flat.")
             ),
-            "Curvature (β₂)": (
+            "Curvature (Beta2)": (
                 f"{beta2:.4f} — "
                 + ("Significant hump in the medium-term segment." if abs(beta2) > 1.0
                    else "Moderate curvature in the medium-term." if abs(beta2) > 0.3
                    else "Little curvature; curve is fairly smooth.")
             ),
-            "Decay parameter (λ)": (
+            "Decay parameter (lambda)": (
                 f"{lam:.4f} years — "
                 + ("Hump/curvature peaks around 2-3 year maturity." if lam < 3.0
                    else "Hump/curvature peaks around 5+ year maturity." if lam > 4.0
@@ -358,12 +358,12 @@ def interpret_params(params: list, model: str = "ns") -> Dict[str, str]:
     elif model.lower() in ("nss", "nelson-siegel-svensson", "svensson"):
         beta0, beta1, beta2, beta3, lam1, lam2 = params
         interpretations = {
-            "Long-term level (β₀)": f"{beta0:.4f}% — Long-term equilibrium rate.",
-            "Short-term slope (β₁)": f"{beta1:.4f} — {'Upward-sloping' if beta1 < 0 else 'Downward-sloping'} curve.",
-            "First curvature (β₂)": f"{beta2:.4f} — Primary curvature (medium-term hump).",
-            "Second curvature (β₃)": f"{beta3:.4f} — Secondary curvature (long-end hump).",
-            "First decay (λ₁)": f"{lam1:.4f} — Decay for first hump.",
-            "Second decay (λ₂)": f"{lam2:.4f} — Decay for second hump (typically larger).",
+            "Long-term level (Beta0)": f"{beta0:.4f}% — Long-term equilibrium rate.",
+            "Short-term slope (Beta1)": f"{beta1:.4f} — {'Upward-sloping' if beta1 < 0 else 'Downward-sloping'} curve.",
+            "First curvature (Beta2)": f"{beta2:.4f} — Primary curvature (medium-term hump).",
+            "Second curvature (Beta3)": f"{beta3:.4f} — Secondary curvature (long-end hump).",
+            "First decay (lambda1)": f"{lam1:.4f} — Decay for first hump.",
+            "Second decay (lambda2)": f"{lam2:.4f} — Decay for second hump (typically larger).",
             "Instantaneous short rate": f"{beta0 + beta1:.4f}% — Implied overnight rate.",
         }
     else:
