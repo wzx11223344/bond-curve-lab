@@ -414,10 +414,10 @@ def plot_curve_components(
         rows=3, cols=1,
         shared_xaxes=True,
         vertical_spacing=0.06,
-        subplot_titles=("Level (β₀) — Long-term Rate", "Slope (β₁) — Negative = Upward Slope", "Curvature (β₂) — Hump Magnitude"),
+        subplot_titles=("Level (Beta0) — Long-term Rate", "Slope (Beta1) — Negative = Upward Slope", "Curvature (Beta2) — Hump Magnitude"),
     )
 
-    component_names = ["Level (β₀)", "Slope (β₁)", "Curvature (β₂)"]
+    component_names = ["Level (Beta0)", "Slope (Beta1)", "Curvature (Beta2)"]
     colors = ["#1f77b4", "#ff7f0e", "#2ca02c"]
 
     for i in range(3):
@@ -636,7 +636,7 @@ def generate_html_report(
                 cls = "Medium-term curvature"
             else:
                 cls = "Decay factor"
-            html_parts.append(f'<tr><td>β<sub>{i}</sub></td><td>{name}</td><td>{val:.6f}</td><td>{cls}</td></tr>')
+            html_parts.append(f'<tr><td>Beta<sub>{i}</sub></td><td>{name}</td><td>{val:.6f}</td><td>{cls}</td></tr>')
         html_parts.append('</table></div>')
 
     # Charts
