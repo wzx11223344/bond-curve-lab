@@ -23,7 +23,7 @@
 ### 安装
 
 ```bash
-git clone <repo-url>
+git clone https://github.com/wzx11223344/bond-curve-lab.git
 cd bond-curve-lab
 pip install -r requirements.txt
 ```
@@ -61,51 +61,59 @@ Nelson-Siegel 模型将收益率曲线分解为三个潜在因子：
 
 ### 模型公式
 
-$$
-y(\tau) = \beta_0 + \beta_1 \cdot L(\tau) + \beta_2 \cdot C(\tau)
-$$
+<p align="center">
+  <img src="https://latex.codecogs.com/svg.image?y(\tau)=\beta_0+\beta_1\cdot\frac{1-e^{-\tau/\lambda}}{\tau/\lambda}+\beta_2\cdot\left(\frac{1-e^{-\tau/\lambda}}{\tau/\lambda}-e^{-\tau/\lambda}\right)" alt="Nelson-Siegel formula" />
+</p>
 
-$$
-L(\tau) = \frac{1 - e^{-\tau/\lambda}}{\tau/\lambda}
-$$
+其中：
 
-$$
-C(\tau) = \frac{1 - e^{-\tau/\lambda}}{\tau/\lambda} - e^{-\tau/\lambda}
-$$
+```
+y(τ) = β₀ + β₁ · L(τ) + β₂ · C(τ)
+
+L(τ) = (1 - e^(-τ/λ)) / (τ/λ)
+
+C(τ) = (1 - e^(-τ/λ)) / (τ/λ) - e^(-τ/λ)
+```
 
 ### 参数含义
 
 | 参数 | 名称 | 经济含义 |
 |------|------|----------|
-| $\beta_0$ | 水平因子 (Level) | 长期均衡利率，$\tau \to \infty$ 时的渐进值 |
-| $\beta_1$ | 斜率因子 (Slope) | 负值 = 正常向上倾斜曲线；正值 = 倒挂 |
-| $\beta_2$ | 曲率因子 (Curvature) | 中期"驼峰"幅度，反映中期利率的相对高低 |
-| $\lambda$ | 衰减参数 (Decay) | 控制曲率峰值的出现位置，数值越大峰值越靠长期端 |
+| β₀ | 水平因子 (Level) | 长期均衡利率，τ → ∞ 时的渐进值 |
+| β₁ | 斜率因子 (Slope) | 负值 = 正常向上倾斜曲线；正值 = 倒挂 |
+| β₂ | 曲率因子 (Curvature) | 中期"驼峰"幅度，反映中期利率的相对高低 |
+| λ | 衰减参数 (Decay) | 控制曲率峰值的出现位置，数值越大峰值越靠长期端 |
 
 ### 因子载荷
 
 - **水平载荷**: 恒为 1（对所有期限等权影响）
-- **斜率载荷**: $L(\tau) = \frac{1 - e^{-\tau/\lambda}}{\tau/\lambda}$，从 1 单调衰减到 0
-- **曲率载荷**: $C(\tau) = \frac{1 - e^{-\tau/\lambda}}{\tau/\lambda} - e^{-\tau/\lambda}$，从 0 开始，在中期达到峰值，再衰减到 0
+- **斜率载荷**: L(τ) = (1 - e^(-τ/λ)) / (τ/λ)，从 1 单调衰减到 0
+- **曲率载荷**: C(τ) = (1 - e^(-τ/λ)) / (τ/λ) - e^(-τ/λ)，从 0 开始，在中期达到峰值，再衰减到 0
 
 ### 即期利率与远期利率关系
 
 瞬时远期利率曲线可从 NS 参数直接推导：
 
-$$f(\tau) = \beta_0 + \beta_1 \cdot e^{-\tau/\lambda} + \beta_2 \cdot \frac{\tau}{\lambda} \cdot e^{-\tau/\lambda}$$
+<p align="center">
+  <img src="https://latex.codecogs.com/svg.image?f(\tau)=\beta_0+\beta_1\cdot&space;e^{-\tau/\lambda}+\beta_2\cdot\frac{\tau}{\lambda}\cdot&space;e^{-\tau/\lambda}" alt="forward rate formula" />
+</p>
 
 ### Nelson-Siegel-Svensson 扩展
 
 Svensson (1994) 增加了第二个曲率因子，更灵活地拟合长期端的复杂形状：
 
-$$
-y(\tau) = \beta_0 + \beta_1 \cdot L_1(\tau) + \beta_2 \cdot C_1(\tau) + \beta_3 \cdot C_2(\tau)
-$$
+<p align="center">
+  <img src="https://latex.codecogs.com/svg.image?y(\tau)=\beta_0+\beta_1\cdot\frac{1-e^{-\tau/\lambda_1}}{\tau/\lambda_1}+\beta_2\cdot\left(\frac{1-e^{-\tau/\lambda_1}}{\tau/\lambda_1}-e^{-\tau/\lambda_1}\right)+\beta_3\cdot\left(\frac{1-e^{-\tau/\lambda_2}}{\tau/\lambda_2}-e^{-\tau/\lambda_2}\right)" alt="NSS formula" />
+</p>
 
-$$
-L_k(\tau) = \frac{1 - e^{-\tau/\lambda_k}}{\tau/\lambda_k}, \qquad
-C_k(\tau) = \frac{1 - e^{-\tau/\lambda_k}}{\tau/\lambda_k} - e^{-\tau/\lambda_k}
-$$
+化简形式：
+
+```
+y(τ) = β₀ + β₁ · L₁(τ) + β₂ · C₁(τ) + β₃ · C₂(τ)
+
+Lₖ(τ) = (1 - e^(-τ/λₖ)) / (τ/λₖ)
+Cₖ(τ) = Lₖ(τ) - e^(-τ/λₖ)
+```
 
 ---
 
