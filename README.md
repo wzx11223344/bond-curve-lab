@@ -61,7 +61,7 @@ Nelson-Siegel 模型将收益率曲线分解为三个潜在因子：
 
 ### 模型公式
 
-$$y(\tau) = \beta_0 + \beta_1 \cdot \frac{1 - e^{-\tau/\lambda}}{\tau/\lambda} + \beta_2 \cdot \bigg(\frac{1 - e^{-\tau/\lambda}}{\tau/\lambda} - e^{-\tau/\lambda}\bigg)$$
+$$y(\tau) = \beta_0 + \beta_1 \cdot \frac{1 - e^{-\tau/\lambda}}{\tau/\lambda} + \beta_2 \cdot \Big(\frac{1 - e^{-\tau/\lambda}}{\tau/\lambda} - e^{-\tau/\lambda}\Big)$$
 
 ### 参数含义
 
@@ -88,7 +88,7 @@ $$f(\tau) = \beta_0 + \beta_1 \cdot e^{-\tau/\lambda} + \beta_2 \cdot \frac{\tau
 
 Svensson (1994) 增加了第二个曲率因子，更灵活地拟合长期端的复杂形状：
 
-$$y(\tau) = \beta_0 + \beta_1 \cdot \frac{1 - e^{-\tau/\lambda_1}}{\tau/\lambda_1} + \beta_2 \cdot \bigg(\frac{1 - e^{-\tau/\lambda_1}}{\tau/\lambda_1} - e^{-\tau/\lambda_1}\bigg) + \beta_3 \cdot \bigg(\frac{1 - e^{-\tau/\lambda_2}}{\tau/\lambda_2} - e^{-\tau/\lambda_2}\bigg)$$
+$$y(\tau) = \beta_0 + \beta_1 \cdot \frac{1 - e^{-\tau/\lambda_1}}{\tau/\lambda_1} + \beta_2 \cdot \Big(\frac{1 - e^{-\tau/\lambda_1}}{\tau/\lambda_1} - e^{-\tau/\lambda_1}\Big) + \beta_3 \cdot \Big(\frac{1 - e^{-\tau/\lambda_2}}{\tau/\lambda_2} - e^{-\tau/\lambda_2}\Big)$$
 
 ---
 
